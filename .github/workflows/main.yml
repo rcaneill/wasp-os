@@ -3,7 +3,8 @@ name: wasp-os binary distribution
 on:
   push:
     branches: [ romain_master ]
-  pull_request
+  pull_request:
+    branches: [ romain_master ]
 
 jobs:
   build:
