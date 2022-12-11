@@ -2,9 +2,8 @@ name: wasp-os simulator tests
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ romain_master ]
+  pull_request
 
 jobs:
   build:
