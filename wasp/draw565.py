@@ -316,7 +316,7 @@ class Draw565(object):
             width = wmax
         else:
             wmax = 240 - x
-        while w > wmax:
+        while w > wmax - 1:
             # We need to strip the string
             s = s[:-1]
             (w, h) = _bounding_box(s, font)
@@ -328,6 +328,7 @@ class Draw565(object):
             else:
                 leftpad = (width - w) // 2
                 rightpad = width - w - leftpad
+            print(x, y, leftpad, h)    
             self.fill(bg, x, y, leftpad, h)
             x += leftpad
 
