@@ -2,6 +2,8 @@ import draw565
 import fonts
 import pytest
 
+import sans24
+
 @pytest.fixture
 def draw():
     """Provide a RGB565 drawing surface.
@@ -69,4 +71,6 @@ def test_font_width(draw):
 
 ))
 def test_wrap(draw, input, expected):
+    # This tests needs to use the original font
+    draw.set_font(sans24)
     assert draw.wrap(input, 240) == expected
