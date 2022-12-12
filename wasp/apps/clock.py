@@ -21,6 +21,7 @@ DIGITS = (
 )
 
 MONTH = 'JanFebMarAprMayJunJulAugSepOctNovDec'
+WDAY = 'MonTueWedThuFriSatSun'
 
 class ClockApp():
     """Simple digital clock application."""
@@ -68,7 +69,21 @@ class ClockApp():
         month = now[1] - 1
         month = MONTH[month*3:(month+1)*3]
 
-        return '{} {} {}'.format(now[2], month, now[0])
+        # Format the weekday as text
+        wday = now[6]
+        wday = WDAY[wday*3:(wday+1)*3]
+
+        return '{} {} {} {}'.format(wday, now[2], month, now[0])
+
+
+    def _get_colors(self, now, draw):
+        if 8 < now[3] < 20:
+            hi = wasp.system.theme('bright')
+            lo = wasp.system.theme('mid')
+        else:
+            hi = wasp.system.theme('mid')
+            lo = draw.darken(hi, 3)
+        return (hi, lo)
 
     def _draw(self, redraw=False):
         """Draw or lazily update the display.
@@ -78,36 +93,38 @@ class ClockApp():
         True then a full redraw is be performed.
         """
         draw = wasp.watch.drawable
-        hi =  wasp.system.theme('bright')
-        lo =  wasp.system.theme('mid')
-        mid = draw.lighten(lo, 1)
-
+        now = wasp.watch.rtc.get_localtime()
+        
         if redraw:
-            now = wasp.watch.rtc.get_localtime()
+            (hi, lo) = self._get_colors(now, draw)
 
             # Clear the display and draw that static parts of the watch face
             draw.fill()
-            draw.blit(digits.clock_colon, 2*48, 80, fg=mid)
+            draw.blit(digits.clock_colon, 2*48, 80, fg=hi)
 
             # Redraw the status bar
-            wasp.system.bar.draw()
+            if 8 < now[3] < 20:
+                wasp.system.bar.draw()
         else:
             # The update is doubly lazy... we update the status bar and if
             # the status bus update reports a change in the time of day 
             # then we compare the minute on display to make sure we 
             # only update the main clock once per minute.
-            now = wasp.system.bar.update()
+            if 8 < now[3] < 20:
+                now = wasp.system.bar.update()
             if not now or self._min == now[4]:
                 # Skip the update
                 return
+            (hi, lo) = self._get_colors(now, draw)
 
         # Draw the changeable parts of the watch face
         draw.blit(DIGITS[now[4]  % 10], 4*48, 80, fg=hi)
-        draw.blit(DIGITS[now[4] // 10], 3*48, 80, fg=lo)
+        draw.blit(DIGITS[now[4] // 10], 3*48, 80, fg=hi)
         draw.blit(DIGITS[now[3]  % 10], 1*48, 80, fg=hi)
-        draw.blit(DIGITS[now[3] // 10], 0*48, 80, fg=lo)
-        draw.set_color(hi)
-        draw.string(self._day_string(now), 0, 180, width=240)
+        draw.blit(DIGITS[now[3] // 10], 0*48, 80, fg=hi)
+        if 8 < now[3] < 20:
+            draw.set_color(lo)
+            draw.string(self._day_string(now), 0, 180, width=240)
 
         # Record the minute that is currently being displayed
         self._min = now[4]
