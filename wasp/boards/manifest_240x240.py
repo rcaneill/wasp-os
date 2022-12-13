@@ -18,7 +18,6 @@ manifest = (
     'apps/software.py',
     'apps/steps.py',
     'apps/stopwatch.py',
-    'apps/testapp.py',
     'apps/timer.py',
     'apps/weather.py',
     'fonts/__init__.py',

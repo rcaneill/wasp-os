@@ -170,7 +170,6 @@ class Manager():
         self.register('apps.timer.TimerApp', True, no_except=True)
         self.register('apps.alarm.AlarmApp', True, no_except=True)
 
-        self.register('apps.faces.FacesApp', no_except=True)
         self.register('apps.settings.SettingsApp', no_except=True)
         self.register('apps.software.SoftwareApp', no_except=True)
 
