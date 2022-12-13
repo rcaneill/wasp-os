@@ -122,8 +122,8 @@ class Manager():
                 b'\xe7\x3c'     # status-clock
                 b'\x7b\xef'     # notify-icon
                 b'\xff\xff'     # bright
-                b'\xbd\xb6'     # mid
-                b'\x39\xff'     # ui
+                b'\xfe\x20'     # mid - yellowish orange
+                b'\xfb\x80'     # ui - orange
                 b'\xff\x00'     # spot1
                 b'\xdd\xd0'     # spot2
                 b'\x00\x0f'     # contrast
