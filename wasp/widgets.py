@@ -47,7 +47,7 @@ class BatteryMeter:
         draw.set_color(col)
         draw.set_font(fonts.sans24)
         # spaces are a hack to erase the % when going from 3/2 to 2/1 number
-        draw.string('{}%  '.format(battery_level), 175, 2)
+        draw.string('{}%  '.format(battery_level), 175, 4)
 
         
         if battery_level == self.level:
@@ -99,7 +99,7 @@ class Clock:
             t1 = '{:02}:{:02}'.format(now[3], now[4])
 
             draw = wasp.watch.drawable
-            draw.set_font(fonts.sans28)
+            draw.set_font(fonts.sans24)
             draw.set_color(wasp.system.theme('status-clock'))
             draw.string(t1, 52, 4, 138)
 
