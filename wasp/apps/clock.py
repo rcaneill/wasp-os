@@ -34,6 +34,7 @@ class ClockApp():
         tick callback every second.
         """
         wasp.system.bar.clock = False
+        wasp.system.bar.notif = False
         self._draw(True)
         wasp.system.request_tick(1000)
 
@@ -81,8 +82,8 @@ class ClockApp():
             hi = wasp.system.theme('bright')
             lo = wasp.system.theme('mid')
         else:
-            hi = wasp.system.theme('mid')
-            lo = draw.darken(hi, 3)
+            hi = wasp.system.theme('ui')
+            lo = hi
         return (hi, lo)
 
     def _draw(self, redraw=False):

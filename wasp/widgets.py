@@ -37,40 +37,32 @@ class BatteryMeter:
         icon = icons.battery
         draw = watch.drawable
 
+        battery_level = watch.battery.level()
+
         if watch.battery.charging():
-            if self.level != -1:
-                draw.blit(icon, 239-icon[1], 0,
-                             fg=wasp.system.theme('battery'))
-                self.level = -1
+            col = wasp.system.theme('bright')
         else:
-            level = watch.battery.level()
-            if level == self.level:
-                return
+            col = wasp.system.theme('mid')
 
+        draw.set_color(col)
+        draw.set_font(fonts.sans24)
+        # spaces are a hack to erase the % when going from 3/2 to 2/1 number
+        draw.string('{}%  '.format(battery_level), 175, 2)
 
-            green = level // 3
-            if green > 31:
-                green = 31
-            red = 31-green
-            rgb = (red << 11) + (green << 6)
+        
+        if battery_level == self.level:
+            return
 
-            if self.level < 0 or ((level > 5) ^ (self.level > 5)):
-                if level  > 5:
-                    draw.blit(icon, 239-icon[1], 0,
-                             fg=wasp.system.theme('battery'))
-                else:
-                    rgb = 0xf800
-                    draw.blit(icon, 239-icon[1], 0, fg=0xf800)
-
-            w = icon[1] - 10
-            x = 239 - 5 - w
-            h = 2*level // 11
-            if 18 - h:
-                draw.fill(0, x, 9, w, 18 - h)
-            if h:
-                draw.fill(rgb, x, 27 - h, w, h)
-
-            self.level = level
+        # Draw line corresponding to percentage
+        
+        if battery_level < self.level:
+            col = 0x0000
+        elif battery_level > self.level:
+            col = wasp.system.theme('mid')
+        draw.line(max(int(self.level / 100 * 239), 0), 0, int(battery_level / 100 * 239), 0, width=1, color=col)
+            
+        
+        self.level = battery_level
 
 class Clock:
     """Small clock widget."""
@@ -116,8 +108,9 @@ class Clock:
 
 class NotificationBar:
     """Show BT status and if there are pending notifications."""
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0, enabled=True):
         self._pos = (x, y)
+        self.enabled = enabled 
 
     def draw(self):
         """Redraw the notification widget.
@@ -133,6 +126,8 @@ class NotificationBar:
         This widget does not implement lazy redraw internally since this
         can often be implemented (with less state) by the container.
         """
+        if not self.enabled:
+            return
         draw = watch.drawable
         (x, y) = self._pos
 
@@ -168,6 +163,17 @@ class StatusBar:
     def clock(self, enabled):
         self._clock.enabled = enabled
 
+    @property
+    def notif(self):
+        """True if the NotificationBar should be included in the status bar, False
+        otherwise.
+        """
+        return self._notif.enabled
+
+    @notif.setter
+    def notif(self, enabled):
+        self._notif.enabled = enabled
+
     def draw(self):
         """Redraw the status bar from scratch."""
         self._clock.draw()
@@ -183,7 +189,7 @@ class StatusBar:
         now = self._clock.update()
         if now:
             self._meter.update()
-            self._notif.update()
+            #self._notif.update()
         return now
 
 class ScrollIndicator:

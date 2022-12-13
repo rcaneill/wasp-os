@@ -328,7 +328,6 @@ class Draw565(object):
             else:
                 leftpad = (width - w) // 2
                 rightpad = width - w - leftpad
-            print(x, y, leftpad, h)    
             self.fill(bg, x, y, leftpad, h)
             x += leftpad
 
