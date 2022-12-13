@@ -81,7 +81,7 @@ class StopwatchApp():
         draw = wasp.watch.drawable
         splits = self._splits
         if 0 == len(splits):
-            draw.fill(0, 0, 120, 240, 120)
+            draw.fill(0, 0, 130, 240, 110)
             return
         y = 240 - 6 - (len(splits) * 24)
 
