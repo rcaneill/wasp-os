@@ -39,18 +39,13 @@ class SoftwareApp():
 
         y = 0
         db = []
-        db.append(('alarm', factory('Alarm')))
+        #db.append(('alarm', factory('Alarm')))
         db.append(('calc', factory('Calculator')))
         db.append(('disaBLE', factory('DisaBLE')))
         db.append(('faces', factory('Faces')))
-        db.append(('gallery', factory('Gallery')))
         db.append(('musicplayer', factory('Music Player')))
-        db.append(('play2048', factory('Play 2048')))
-        db.append(('snake', factory('Snake Game')))
-        db.append(('sports', factory('Sports')))
         db.append(('flashlight', factory('Torch')))
-        db.append(('testapp', factory('Test')))
-        db.append(('timer', factory('Timer')))
+        #db.append(('timer', factory('Timer')))
         db.append(('weather', factory('Weather')))
 
         # Handle user-loaded applications

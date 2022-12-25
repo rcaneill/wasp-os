@@ -313,10 +313,10 @@ class AlarmApp:
             draw.set_color(wasp.system.theme('mid'))
 
         draw.set_font(fonts.sans28)
-        draw.string("{:02d}:{:02d}".format(alarm[_HOUR_IDX], alarm[_MIN_IDX]), 10, 60 + (index * 45), width=120)
+        draw.string("{:02d}:{:02d}".format(alarm[_HOUR_IDX], alarm[_MIN_IDX]), 10, 60 + (index * 45), width=130)
 
         draw.set_font(fonts.sans18)
-        draw.string(self._get_repeat_code(alarm[_ENABLED_IDX]), 130, 70 + (index * 45), width=60)
+        draw.string(self._get_repeat_code(alarm[_ENABLED_IDX]), 135, 70 + (index * 45), width=55)
 
         draw.line(0, 95 + (index * 45), 240, 95 + (index * 45), width=1, color=wasp.system.theme('bright'))
 

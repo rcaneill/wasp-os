@@ -24,11 +24,6 @@ class FacesApp():
         """Activate the application."""
         choices = []
         choices.append(('clock', 'Clock'))
-        choices.append(('week_clock', 'WeekClock'))
-        choices.append(('chrono', 'Chrono'))
-        choices.append(('dual_clock', 'DualClock'))
-        choices.append(('fibonacci_clock', 'FibonacciClock'))
-        choices.append(('word_clock', 'WordClock'))
 
         self.choices = choices
         self.choice = 0
